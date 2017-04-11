@@ -223,12 +223,21 @@ module.exports = {
       extensions: ['svg'],
       assetMapPath: 'assets/icon-assets.json'
     })
-    const treesToMerge = [assetRevisedIconPacks]
+
+    const treesToMerge = [mergedIconPacks]
 
     if (treeForPublic) {
       treesToMerge.push(treeForPublic)
     }
 
     return mergeTrees(treesToMerge, { overwrite: true })
+  },
+  postprocessTree (type, tree) {
+    if (type === 'all') {
+      const iconAssets = fs.readFileSync('dist/assets/icon-assets.json', 'utf8')
+      const iconNameTree = writeFile('modules/ember-frost-core/icon-assets.js', `export default ${iconAssets}`)
+      return mergeTrees([tree, iconNameTree], {overwrite: true})
+    }
+    return tree
   }
 }

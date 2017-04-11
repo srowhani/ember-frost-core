@@ -3,6 +3,11 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-addon')
 
 module.exports = function (defaults) {
   var app = new EmberApp(defaults, {
+    fingerprint: {
+      extensions: ['svg'],
+      generateAssetMap: true,
+      fingerprintAssetMap: true
+    },
     babel: {
       optional: ['es7.decorators']
     },
